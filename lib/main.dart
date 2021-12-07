@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
         title: 'Developer Portfolio',
         theme: AppThemes.lightTheme,
         darkTheme: AppThemes.darkTheme,
-        themeMode: value.light ? ThemeMode.light : ThemeMode.dark,
+        themeMode: ThemeMode.dark,
+        // themeMode: value.light ? ThemeMode.light : ThemeMode.dark,
         home: const HomePage(),
       );
     });

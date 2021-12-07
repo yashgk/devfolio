@@ -3,31 +3,42 @@ import 'package:flutter/material.dart';
 
 class AppThemes {
   static ThemeData darkTheme = ThemeData(
-      brightness: Brightness.dark,
-      primaryColor: AppColors.blackColor,
-      primaryColorDark: AppColors.whiteColor,
-      scaffoldBackgroundColor: AppColors.blackColor,
-      primaryTextTheme: const TextTheme(
-        headline1: TextStyle(
-          fontFamily: 'Righteous',
-          fontSize: 30,
-          color: AppColors.blackColor,
-        ),
-        bodyText1: TextStyle(
-            fontFamily: "Righteous", fontSize: 20, color: AppColors.blackColor),
+    fontFamily: "Poppins",
+    primaryColorDark: const Color.fromRGBO(111, 88, 255, 1),
+    primaryColor: const Color.fromRGBO(128, 109, 255, 1),
+    primaryColorLight: const Color.fromRGBO(159, 84, 252, 1),
+    brightness: Brightness.dark,
+    primaryColorBrightness: Brightness.dark,
+    // scaffoldBackgroundColor: AppColors.blackColor,
+    primarySwatch: Colors.deepPurple,
+    canvasColor: const Color.fromRGBO(31, 29, 44, 1),
+    primaryTextTheme: const TextTheme(
+      headline1: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 30,
       ),
-      iconTheme: const IconThemeData(
-        color: AppColors.whiteColor,
+      bodyText1: TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 20,
       ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: AppColors.whiteColor));
+      bodyText2: TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 20,
+        color: Color.fromRGBO(111, 88, 255, 1),
+      ),
+    ),
+    // iconTheme: const IconThemeData(
+    //   color: AppColors.whiteColor,
+    // ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: AppColors.whiteColor),
+  );
 
   static ThemeData lightTheme = ThemeData(
       brightness: Brightness.light,
       primaryColor: AppColors.whiteColor,
       primaryColorDark: AppColors.blackColor,
       scaffoldBackgroundColor: AppColors.whiteColor,
-      
       primaryTextTheme: const TextTheme(
         headline1: TextStyle(
           fontFamily: 'Righteous',

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:devfolio/constants/app_colors.dart';
+import 'package:devfolio/constants/size_config.dart';
 import 'package:devfolio/core/providers/theme_provider.dart';
+import 'package:devfolio/ui/shared_widgets/custom_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,13 +16,80 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> navMenu = [];
+  // List<Widget> navMenu = [];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ThemeProvider themeProvider = ThemeProvider();
 
-  void getNavBar(BuildContext context) {
-    navMenu = [
+  @override
+  Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       themeProvider.setTheme(!themeProvider.light);
+      //     });
+      //   },
+      //   child: themeProvider.light
+      //       ? const Icon(Icons.light_mode)
+      //       : const Icon(Icons.dark_mode),
+      //   mini: true,
+      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+      key: _scaffoldKey,
+      endDrawer: MediaQuery.of(context).size.width >= 1280
+          ? null
+          : buildSidebar(context),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CustomContainer(
+                child: MediaQuery.of(context).size.width >= 1280
+                    ? SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: buildNavItems(context)),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        icon: Icon(
+                          Icons.menu,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                backgroundColor: AppColors.darkGrey,
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.01,
+                    vertical: MediaQuery.of(context).size.height * 0.01),
+                borderRadius: 40),
+            Container(
+              child: MediaQuery.of(context).size.width >= 1280
+                  ? const Text(
+                      "Desktop",
+                    )
+                  : MediaQuery.of(context).size.width >= 800 &&
+                          MediaQuery.of(context).size.width < 1280
+                      ? const Text(
+                          "Tablet",
+                        )
+                      : const Text(
+                          "mobile",
+                        ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> buildNavItems(BuildContext context) {
+    return [
       InkWell(
         onTap: () {},
         child: Text(
@@ -44,168 +113,37 @@ class _HomePageState extends State<HomePage> {
       ),
       InkWell(
         onTap: () {},
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-          decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(10)),
-          child: Text(
-            "Say Hello",
-            style: Theme.of(context)
-                .primaryTextTheme
-                .bodyText1!
-                .copyWith(color: Theme.of(context).primaryColorDark),
-          ),
+        child: Text(
+          "Say Hello",
+          style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
       ),
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    getNavBar(context);
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            themeProvider.setTheme(!themeProvider.light);
-          });
-        },
-        child: themeProvider.light
-            ? const Icon(Icons.light_mode)
-            : const Icon(Icons.dark_mode),
-        mini: true,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
-      key: _scaffoldKey,
-      endDrawer: MediaQuery.of(context).size.width >= 1280
-          ? null
-          : MediaQuery.of(context).size.width >= 800 &&
-                  MediaQuery.of(context).size.width < 1280
-              ? Stack(
-                  children: [
-                    Container(
-                      color: Theme.of(context).primaryColorDark,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: navMenu,
-                      ),
-                    ),
-                    Positioned(
-                        top: MediaQuery.of(context).size.height * 0.02,
-                        right: MediaQuery.of(context).size.width * 0.03,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        )),
-                  ],
-                )
-              : Stack(
-                  children: [
-                    Container(
-                      color: Theme.of(context).primaryColorDark,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: navMenu,
-                      ),
-                    ),
-                    Positioned(
-                        top: MediaQuery.of(context).size.height * 0.02,
-                        right: MediaQuery.of(context).size.width * 0.03,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        )),
-                  ],
-                ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-              ),
-              height: MediaQuery.of(context).size.height * 0.07,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.02),
-                    child: Text(
-                      ">_Yash",
-                      style: Theme.of(context).primaryTextTheme.headline1,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.02),
-                    child: MediaQuery.of(context).size.width >= 1280
-                        ? SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: navMenu,
-                            ),
-                          )
-                        : MediaQuery.of(context).size.width >= 800 &&
-                                MediaQuery.of(context).size.width < 1280
-                            ? IconButton(
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openEndDrawer();
-                                },
-                                icon: Icon(
-                                  Icons.menu,
-                                  color: Theme.of(context).primaryColor,
-                                ))
-                            : IconButton(
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openEndDrawer();
-                                },
-                                icon: Icon(
-                                  Icons.menu,
-                                  color: Theme.of(context).primaryColor,
-                                )),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: MediaQuery.of(context).size.width >= 1280
-                  ? const Text(
-                      "Desktop",
-                      style: TextStyle(fontFamily: 'Righteous'),
-                    )
-                  : MediaQuery.of(context).size.width >= 800 &&
-                          MediaQuery.of(context).size.width < 1280
-                      ? const Text(
-                          "Tablet",
-                          style: TextStyle(fontFamily: 'Righteous'),
-                        )
-                      : const Text(
-                          "mobile",
-                          style: TextStyle(fontFamily: 'Righteous'),
-                        ),
-            ),
-            Text(themeProvider.light.toString()),
-          ],
+  Widget buildSidebar(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          color: Theme.of(context).primaryColorDark,
+          width: MediaQuery.of(context).size.width * 0.15,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: buildNavItems(context)),
         ),
-      ),
+        Positioned(
+            top: MediaQuery.of(context).size.height * 0.02,
+            right: MediaQuery.of(context).size.width * 0.03,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).primaryColor,
+              ),
+            )),
+      ],
     );
   }
 }
@@ -225,3 +163,7 @@ class _HomePageState extends State<HomePage> {
 //                           "mobile",
 //                           style: TextStyle(fontFamily: 'Righteous'),
 //                         ),
+
+
+
+
